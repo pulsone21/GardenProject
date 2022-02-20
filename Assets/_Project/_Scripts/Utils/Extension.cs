@@ -24,11 +24,11 @@ public static class Extensions
         }
     }
 
-    public static void ClearChildren(this Transform transform)
+    public static void ClearAllChildren(this Transform transform)
     {
-        for (int i = 0; i < transform.childCount; i++)
+        while (transform.childCount != 0)
         {
-            GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+            GameObject.DestroyImmediate(transform.GetChild(0).gameObject);
         }
     }
 

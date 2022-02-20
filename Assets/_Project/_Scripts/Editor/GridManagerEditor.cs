@@ -21,14 +21,19 @@ namespace GridSystem
             {
                 if (Target.Grid != null)
                 {
-                    Target.transform.ClearChildren();
+                    Target.transform.ClearAllChildren();
                 }
                 Target.GenerateGrid();
             }
 
             if (GUILayout.Button("Clear Grid"))
             {
+                Target.transform.ClearAllChildren();
                 Target.ClearGrid();
+            }
+            if (GUILayout.Button("Toggle Debugmode"))
+            {
+                Target.Grid.ToogleDebug(!Target.Grid.DebugMode);
             }
         }
     }
