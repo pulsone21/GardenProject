@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GridSystem
 {
-    public class GridObject
+    public abstract class GridObject : IGridDebug
     {
         protected PlaceableObjectSO placeableObject;
         protected GameObject placedGameobject;
@@ -19,19 +19,25 @@ namespace GridSystem
             this.placedGameobject = null;
         }
 
-        public PlaceableObjectSO GetPlaceableObject()
+        public PlaceableObjectSO GetPlaceableObject() => this.placeableObject;
+
+        public GameObject GetGameObject() => this.placedGameobject;
+
+        public bool CanBuild() => placeableObject == null;
+
+        public virtual void CreateDebugText()
         {
-            return this.placeableObject;
+            throw new System.NotImplementedException();
         }
 
-        public GameObject GetGameObject()
+        public virtual void ToogleDebugText()
         {
-            return this.placedGameobject;
+            throw new System.NotImplementedException();
         }
 
-        public bool CanBuild()
+        public virtual void UpdateDebugText(string newText)
         {
-            return placeableObject == null;
+            throw new System.NotImplementedException();
         }
     }
 
@@ -51,13 +57,13 @@ namespace GridSystem
         public override void ClearPlaceableObject()
         {
             base.ClearPlaceableObject();
-            grid.UpdateDebugText(x, z);
+            UpdateDebugText(ToString());
         }
 
         public override void SetPlaceableObject(PlaceableObjectSO PlaceableObject, GameObject gameObject)
         {
             base.SetPlaceableObject(PlaceableObject, gameObject);
-            grid.UpdateDebugText(x, z);
+            UpdateDebugText(ToString());
         }
 
         public override string ToString()

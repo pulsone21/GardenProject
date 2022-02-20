@@ -14,15 +14,9 @@ namespace GridSystem
             this.y = y;
         }
 
-        public override string ToString()
-        {
-            return x + "_" + y;
-        }
+        public override string ToString() => x + "_" + y;
 
-        public bool CheckForSameCoordinate(Coordinate coord)
-        {
-            return coord.x == x && coord.y == y;
-        }
+        public bool CheckForSameCoordinate(Coordinate coord) => coord.x == x && coord.y == y;
 
         public Direction GetRelativDirectionToCoord(Coordinate coord)
         {

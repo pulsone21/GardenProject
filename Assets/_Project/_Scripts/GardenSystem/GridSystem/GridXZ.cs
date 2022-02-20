@@ -6,13 +6,20 @@ using Utilities;
 namespace GridSystem
 {
 
-    public class GridXZ<TGridObject>
+    public class GridXZ<TGridObject> where TGridObject : IGridDebug
     {
         private int width, height, cellSize;
         private Vector3 originPosition;
         public TGridObject[,] gridFields { get; protected set; }
-        private TextMeshPro[,] debugTextMeshes;
         public Plane rayCastPlane { get; protected set; }
+        public readonly Transform GridManagerTransform;
+
+        public int CellSize { get => cellSize; }
+        public int Height { get => height; }
+        public int Width { get => width; }
+        public Vector3 OriginPosition { get => originPosition; }
+
+        public bool DebugMode { get; protected set; }
 
         public GridXZ(int width, int height, int cellSize, Vector3 originPosition, Transform parent, Func<GridXZ<TGridObject>, int, int, TGridObject> createObject)
         {
@@ -21,21 +28,18 @@ namespace GridSystem
             this.originPosition = originPosition;
             this.cellSize = cellSize;
             this.rayCastPlane = new Plane(originPosition, (new Vector3(0, 0, height) * cellSize + originPosition), (new Vector3(width, 0, height) * cellSize + originPosition));
+            this.GridManagerTransform = parent;
             gridFields = new TGridObject[width, height];
-            debugTextMeshes = new TextMeshPro[width, height];
 
             for (int x = 0; x < gridFields.GetLength(0); x++)
             {
                 for (int z = 0; z < gridFields.GetLength(1); z++)
                 {
                     gridFields[x, z] = createObject(this, x, z);
-                    debugTextMeshes[x, z] = Utils.CreateWorldText(parent, gridFields[x, z].ToString(), GetWorldPosFromGridCoords(x, z) + new Vector3(cellSize, 0, cellSize) * .5f, Color.white, 12);
-                    debugTextMeshes[x, z].transform.Rotate(new Vector3(90, 0, 0));
-                    debugTextMeshes[x, z].enabled = false;
                 }
             }
-
-            ToogleDebug(true);
+            DebugMode = false;
+            ToogleDebug(DebugMode);
         }
 
         public Vector3 GetMouseWorldPosition(Vector3 mousePos)
@@ -46,31 +50,6 @@ namespace GridSystem
                 return ray.GetPoint(distance);
             };
             return Vector3.zero;
-        }
-
-        public int GetHeight()
-        {
-            return height;
-        }
-
-        public int GetWidth()
-        {
-            return width;
-        }
-
-        public int GetCellSize()
-        {
-            return cellSize;
-        }
-
-        public Vector3 GetOriginVector()
-        {
-            return originPosition;
-        }
-
-        public void UpdateDebugText(int x, int z)
-        {
-            if (ValidateCoords(x, z)) debugTextMeshes[x, z].text = gridFields[x, z].ToString();
         }
 
         /// <summary>
@@ -95,10 +74,8 @@ namespace GridSystem
         /// </summary>
         /// <param name="coord"></param>
         /// <returns></returns>
-        public Vector3 GetWorldPositionFromGridCoords(Coordinate coord)
-        {
-            return GetWorldPosFromGridCoords(coord.x, coord.y);
-        }
+        public Vector3 GetWorldPositionFromGridCoords(Coordinate coord) => GetWorldPosFromGridCoords(coord.x, coord.y);
+
 
         /// <summary>
         /// Only for class internal use, dont have an coordination validation
@@ -106,10 +83,8 @@ namespace GridSystem
         /// <param name="x"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        private Vector3 GetWorldPosFromGridCoords(int x, int z)
-        {
-            return new Vector3(x, 0, z) * cellSize + originPosition;
-        }
+        private Vector3 GetWorldPosFromGridCoords(int x, int z) => new Vector3(x, 0, z) * cellSize + originPosition;
+
 
         /// <summary>
         /// Returns a Coordinate which contains the Gridposition calculated from specified worldPosition
@@ -126,13 +101,14 @@ namespace GridSystem
 
         public void ToogleDebug(bool debugMode)
         {
+            DebugMode = debugMode;
             if (debugMode)
             {
                 for (int x = 0; x < this.gridFields.GetLength(0); x++)
                 {
                     for (int z = 0; z < gridFields.GetLength(1); z++)
                     {
-                        debugTextMeshes[x, z].enabled = true;
+                        if (ValidateCoords(x, z)) gridFields[x, z].ToogleDebugText();
                         Debug.DrawLine(GetWorldPosFromGridCoords(x, z), GetWorldPosFromGridCoords(x, z + 1), Color.white, 100f);
                         Debug.DrawLine(GetWorldPosFromGridCoords(x, z), GetWorldPosFromGridCoords(x + 1, z), Color.white, 100f);
                     }
@@ -143,6 +119,10 @@ namespace GridSystem
             }
             else
             {
+                foreach (TGridObject gridField in gridFields)
+                {
+                    gridField.ToogleDebugText();
+                }
 
             }
         }
@@ -153,16 +133,8 @@ namespace GridSystem
         /// <param name="x"></param>
         /// <param name="z"></param>
         /// <returns>True if Coordinates in ArrayBounds</returns>
-        public bool ValidateCoords(int x, int z)
-        {
-            return (x >= 0 && z >= 0 && x < width && z < height);
-        }
+        public bool ValidateCoords(int x, int z) => x >= 0 && z >= 0 && x < width && z < height;
 
-        public bool ValidateCoords(Coordinate coord)
-        {
-            return ValidateCoords(coord.x, coord.y);
-        }
-
-
+        public bool ValidateCoords(Coordinate coord) => ValidateCoords(coord.x, coord.y);
     }
 }
