@@ -1,16 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using GardenProject;
 
 namespace GridSystem
 {
-
     public class GridManager : MonoBehaviour
     {
         public static GridManager _instance;
         [SerializeField] private int width, height, cellSize;
-        public GridXZ<GridObjectXZ> Grid { get; protected set; }
-        [SerializeField] private List<PlaceableObjectSO> placeableObjects;
+        public GridXZ<GroundTile> Grid { get; protected set; }
+        public GameObject[] GroundTileVisuals;
+
 
         void Awake()
         {
@@ -23,37 +24,22 @@ namespace GridSystem
                 _instance = this;
             }
 
-            LoadPlacableObjects();
+            GroundTileVisuals = Resources.LoadAll<GameObject>("/GardenTiles");
+        }
+
+        private void Start()
+        {
             if (Grid == null)
             {
                 GenerateGrid();
             }
-
         }
 
-        internal void GenerateGrid()
-        {
-            Grid = new GridXZ<GridObjectXZ>(width, height, cellSize, this.transform.position, this.transform, (GridXZ<GridObjectXZ> g, int x, int z) => new GridObjectXZ(x, z, g));
-        }
+        internal void GenerateGrid() => Grid = new GridXZ<GroundTile>(width, height, cellSize, this.transform.position, this.transform, (GridXZ<GroundTile> g, int x, int z) => new GroundTile(x, z, g));
 
-        internal void ClearGrid()
-        {
-            Grid = null;
-            transform.ClearChildren();
-        }
+        internal void ClearGrid() => Grid = null;
 
-        public List<PlaceableObjectSO> GetPlaceableObjects()
-        {
-            return placeableObjects;
-        }
 
-        private void LoadPlacableObjects()
-        {
-            PlaceableObjectSO[] pOs = Resources.LoadAll<PlaceableObjectSO>("ScriptableObjects/PlaceableObjects");
-            foreach (PlaceableObjectSO pO in pOs)
-            {
-                placeableObjects.Add(pO);
-            }
-        }
+
     }
 }
