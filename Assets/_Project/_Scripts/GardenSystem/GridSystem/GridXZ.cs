@@ -12,7 +12,7 @@ namespace GridSystem
         private Vector3 originPosition;
         public TGridObject[,] gridFields { get; protected set; }
         public Plane rayCastPlane { get; protected set; }
-        public readonly Transform GridManagerTransform;
+        public Transform GridManagerTransform { get; protected set; }
 
         public int CellSize { get => cellSize; }
         public int Height { get => height; }
