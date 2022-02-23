@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: 
   m_max_Harvest_Ammount: 2
-  name: Carrot
+  Name: Carrot
+  PlantVisuals:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  UiVisual: {fileID: 0}

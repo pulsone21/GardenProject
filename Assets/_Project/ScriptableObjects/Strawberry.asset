@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Strawberry
   m_EditorClassIdentifier: 
   m_max_Harvest_Ammount: 8
-  name: Strawberry
+  Name: Strawberry
+  PlantVisuals:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  UiVisual: {fileID: 0}
