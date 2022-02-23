@@ -8,20 +8,21 @@ namespace GridSystem
 
     public class GridXZ<TGridObject> where TGridObject : IGridDebug
     {
-        private int width, height, cellSize;
+        private int width, height;
+        private float cellSize;
         private Vector3 originPosition;
         public TGridObject[,] gridFields { get; protected set; }
         public Plane rayCastPlane { get; protected set; }
         public Transform GridManagerTransform { get; protected set; }
 
-        public int CellSize { get => cellSize; }
+        public float CellSize { get => cellSize; }
         public int Height { get => height; }
         public int Width { get => width; }
         public Vector3 OriginPosition { get => originPosition; }
 
         public bool DebugMode { get; protected set; }
 
-        public GridXZ(int width, int height, int cellSize, Vector3 originPosition, Transform parent, Func<GridXZ<TGridObject>, int, int, TGridObject> createObject)
+        public GridXZ(int width, int height, float cellSize, Vector3 originPosition, Transform parent, Func<GridXZ<TGridObject>, int, int, TGridObject> createObject)
         {
             this.width = width;
             this.height = height;
