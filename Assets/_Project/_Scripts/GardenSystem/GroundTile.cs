@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GridSystem;
 using TMPro;
+using System;
 
 namespace GardenProject
 {
@@ -16,7 +17,7 @@ namespace GardenProject
         protected Plant m_Plant;
         protected GameObject baseTile;
         protected GameObject placedVisual;
-        protected GameObject baseVisual;
+        protected TileVisualController baseVisual;
         protected GameObject DebugTextGO;
 
         public GroundTile(int x, int z, GridXZ<GroundTile> grid)
@@ -27,7 +28,7 @@ namespace GardenProject
             baseTile = new GameObject(ToString());
             baseTile.transform.position = WorldPosition();
             baseTile.transform.SetParent(grid.GridManagerTransform);
-            baseVisual = GameObject.Instantiate(grid.GridManagerTransform.GetComponent<GridManager>().GroundTileVisuals[0], WorldPosition(), Quaternion.identity);
+            baseVisual = GameObject.Instantiate(grid.GridManagerTransform.GetComponent<GridManager>().GroundTileVisual, WorldPosition(), Quaternion.identity).GetComponent<TileVisualController>();
             baseVisual.transform.SetParent(baseTile.transform);
             CreateDebugText();
         }
@@ -43,8 +44,17 @@ namespace GardenProject
         public bool IsPlantable { get => m_IsPlantable; }
         public GridXZ<GroundTile> Grid { get => grid; }
 
-        public void TooglePlantable() => m_IsPlantable = !m_IsPlantable;
-        public void TooglePlaceable() => m_isPlaceable = !m_isPlaceable;
+        public void SetPlantable(bool state)
+        {
+            if (state) SetPlantable(false);
+            baseVisual.VisualChangeOnPlantableChange(state);
+            m_IsPlantable = state;
+        }
+        public void SetPlaceable(bool state)
+        {
+            if (state) SetPlantable(false);
+            m_isPlaceable = state;
+        }
 
         public override string ToString() => $"GardenTile_{m_x},{m_z}";
         public void ToogleDebugText() => DebugTextGO.SetActive(!DebugTextGO.activeSelf);
@@ -113,6 +123,7 @@ namespace GardenProject
             DebugText.color = Color.magenta;
             DebugText.margin = new Vector4(0.3f, 0, 0.3f, 0);
         }
+
 
 
 
