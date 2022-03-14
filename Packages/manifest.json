@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.15.12",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.progrids": "3.0.3-preview.6",
