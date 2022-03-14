@@ -6,46 +6,45 @@ using System.Linq;
 
 namespace GardenProject
 {
-    public enum GrowthStage { child, teenager, adult }
-
     [CreateAssetMenu(menuName = "ScriptableObjects/Plant")]
     public class Plant : ScriptableObject
     {
-        private GrowthStage m_growthStage;
-        private bool m_isHarvastable;
-        [SerializeField] private int m_max_Harvest_Ammount;
         public string Name;
-
-        public GameObject[] PlantVisuals = new GameObject[Enum.GetValues(typeof(GrowthStage)).Length];
-
+        [SerializeField] private GrowthStage[] m_GrowthStages;
         public Sprite UiVisual;
 
-        public GrowthStage GrowthStage { get => m_growthStage; }
-        public bool IsHarvastable { get => m_isHarvastable; }
+        private GrowthStage m_CurrentGrowthStage;
+        private int m_CurrentGrowthStageIndex = 0;
+        private GroundTile m_MyGroundTile;
 
-        private Action<GrowthStage> m_onGrowthStageChange;
+        public GrowthStage CurrentGrowthStage { get => m_CurrentGrowthStage; }
+        public bool IsHarvastable { get => m_CurrentGrowthStage.Harvestable; }
 
-        public void RegisterOnGrowthStageChange(Action<GrowthStage> _action) => m_onGrowthStageChange += _action;
-        public void UnregisterOnGrowthStageChange(Action<GrowthStage> _action) => m_onGrowthStageChange -= _action;
+        private Action m_onGrowthStageChange;
 
-        public void IncreaseGrowthStage()
+        public void RegisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange += _action;
+        public void UnregisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange -= _action;
+
+        public void IncreaseGrowthStage() => ChangeGrowthStage(1);
+        public void DecreaseGrowthStage() => ChangeGrowthStage(-1);
+
+        private void ChangeGrowthStage(int changeDirection)
         {
-            if ((int)m_growthStage < (int)Enum.GetValues(typeof(GrowthStage)).Cast<GrowthStage>().Max())
+            int changedValue = m_CurrentGrowthStageIndex + (changeDirection / Mathf.Abs(changeDirection));
+            if (changedValue > 0 && changedValue < m_GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
             {
-                m_growthStage = (GrowthStage)(int)m_growthStage + 1;
-                if ((int)m_growthStage >= 2)
-                {
-                    m_isHarvastable = true;
-                }
-                m_onGrowthStageChange?.Invoke(m_growthStage);
+                m_CurrentGrowthStage = m_GrowthStages[changedValue];
+                m_CurrentGrowthStageIndex = changedValue;
+                m_onGrowthStageChange?.Invoke();
             }
-            Debug.LogError("GrowthStage is already at max state");
+            Debug.LogError("GrowthStage out of bounce or not changing");
         }
 
         public void ResetGrowth()
         {
-            m_growthStage = GrowthStage.child;
-            m_isHarvastable = false;
+            m_CurrentGrowthStage = m_GrowthStages[0];
+            m_CurrentGrowthStageIndex = 0;
+            m_onGrowthStageChange?.Invoke();
         }
 
         /// <summary>
@@ -55,30 +54,35 @@ namespace GardenProject
         public bool Harvest(out int harvestedAmmount)
         {
             // IDEA harvest expierence could be change the ammount a bit
-
             harvestedAmmount = 0;
-            if (!m_isHarvastable) return false;
 
-            switch (m_growthStage)
+            if (m_CurrentGrowthStage.Harvestable)
             {
-                case GrowthStage.child:
-                    //TODO Create some Error UI
-                    Debug.LogError("Cannont harvest a child plant");
-                    return false;
-                case GrowthStage.teenager:
-                    harvestedAmmount = Mathf.FloorToInt(m_max_Harvest_Ammount * .5f);
-                    ResetGrowth();
-                    return true;
-                case GrowthStage.adult:
-                    harvestedAmmount = m_max_Harvest_Ammount;
-                    ResetGrowth();
-                    return true;
-                default:
-                    Debug.LogError($"{m_growthStage} state isn't Implemented");
-                    return false;
+                harvestedAmmount = m_CurrentGrowthStage.HarvestAmount;
+
+                switch (m_CurrentGrowthStage.HarvestType)
+                {
+                    case HarvestType.harvest:
+                        m_MyGroundTile.RemovePlant();
+                        return true;
+                    case HarvestType.collect:
+                        DecreaseGrowthStage();
+                        return true;
+                    default: return false;
+                }
             }
+            return false;
         }
 
+        /// <summary>
+        /// Plants the plant, needs to get called for initialization
+        /// </summary>
+        /// <returns>GameObject Plant Visual</returns>
+        public void Planting(GroundTile _myGroundTile)
+        {
+            m_CurrentGrowthStage = m_GrowthStages[m_CurrentGrowthStageIndex];
+            m_MyGroundTile = _myGroundTile;
+        }
 
 
     }

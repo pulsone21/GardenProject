@@ -66,20 +66,22 @@ namespace GardenProject
             if (m_IsPlantable)
             {
                 m_Plant = _plant;
+                m_Plant.Planting(this);
                 //TODO Handle inventory Stuff
                 //TODO Handle Visuals
+                UpdateVisuals();
                 m_Plant.RegisterOnGrowthStageChange(UpdateVisuals);
                 return true;
             }
             return false;
         }
 
-        private void UpdateVisuals(GrowthStage growthStage)
+        private void UpdateVisuals()
         {
             GameObject.Destroy(placedVisual);
             placedVisual = null;
             grid.GetWorldPositionFromGridCoords(m_x, m_z, out Vector3 myWorldPos);
-            placedVisual = GameObject.Instantiate(m_Plant.PlantVisuals[(int)growthStage], myWorldPos, Quaternion.identity);
+            placedVisual = GameObject.Instantiate(m_Plant.CurrentGrowthStage.Visual, myWorldPos, Quaternion.identity);
         }
 
         public bool HarvestPlant()
