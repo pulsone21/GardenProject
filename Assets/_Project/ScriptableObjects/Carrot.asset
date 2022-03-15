@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefd3a33888910740a30915ad7b28770, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
-  m_max_Harvest_Ammount: 2
   Name: Carrot
-  PlantVisuals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  m_GrowthStages: []
   UiVisual: {fileID: 21300000, guid: c1879245f22fb0d41b9d4d48ae3be67f, type: 3}
+  BaseCost: 15

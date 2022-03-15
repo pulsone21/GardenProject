@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefd3a33888910740a30915ad7b28770, type: 3}
   m_Name: Onion
   m_EditorClassIdentifier: 
-  m_max_Harvest_Ammount: 0
-  Name: 
-  PlantVisuals:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Name: Onion
+  m_GrowthStages: []
   UiVisual: {fileID: 21300000, guid: 7720f198230e8434b887433cc27f2788, type: 3}
+  BaseCost: 5
