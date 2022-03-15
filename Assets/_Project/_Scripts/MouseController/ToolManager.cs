@@ -20,12 +20,6 @@ namespace GardenProject
             mouseController.SetMouseTool(fertilizedTool);
         }
 
-        public void SelectSeedTool(Plant plant, int SeedAmount)
-        {
-            SeedTool seedTool = new SeedTool(plant, SeedAmount);
-            mouseController.SetMouseTool(seedTool);
-        }
-
         public void SelectHarvestTool()
         {
             HarvestTool harvestTool = new HarvestTool();

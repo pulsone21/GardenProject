@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
+using InventorySystem;
 namespace GardenProject
 {
+
+    //TODO refactor and split into multiple parts. This class does to many things
     [CreateAssetMenu(menuName = "ScriptableObjects/Plant")]
-    public class Plant : ScriptableObject
+    public class Plant : ScriptableObject, IInventoryObject
     {
         public string Name;
         [SerializeField] private GrowthStage[] m_GrowthStages;
         public Sprite UiVisual;
+        public int BaseCost;
 
         private GrowthStage m_CurrentGrowthStage;
         private int m_CurrentGrowthStageIndex = 0;
@@ -19,6 +22,12 @@ namespace GardenProject
 
         public GrowthStage CurrentGrowthStage { get => m_CurrentGrowthStage; }
         public bool IsHarvastable { get => m_CurrentGrowthStage.Harvestable; }
+
+        Sprite IInventoryObject.UiVisual { get => UiVisual; }
+        int IInventoryObject.BaseCost { get => BaseCost; }
+        string IInventoryObject.Name { get => Name; }
+
+        public int Cost => BaseCost; //TODO Implement some kind of Modifier, Inflation, Angebot/Nachfrage, Verträge ???? 
 
         private Action m_onGrowthStageChange;
 
@@ -84,7 +93,11 @@ namespace GardenProject
             m_MyGroundTile = _myGroundTile;
         }
 
-
+        public void PickItem(Inventory inventory)
+        {
+            MouseController._instance.SetMouseTool(new SeedTool(this, inventory));
+            //TODO Implement custom mouse pointer or something that gives feedback
+        }
     }
 
 }

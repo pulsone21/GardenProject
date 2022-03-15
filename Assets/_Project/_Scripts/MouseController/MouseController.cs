@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GridSystem;
-
+using UnityEngine.EventSystems;
 
 namespace GardenProject
 {
@@ -38,7 +38,7 @@ namespace GardenProject
                 selectedTool = null;
             }
 
-            if (OverGrid(Input.mousePosition, out Coordinate currentCord))
+            if (!MouseOverUi() && OverGrid(Input.mousePosition, out Coordinate currentCord))
             {
                 DisplayHoverUI(currentCord);
                 if (selectedTool != null && Input.GetMouseButtonDown(0))
@@ -53,7 +53,7 @@ namespace GardenProject
 
 
         }
-
+        private bool MouseOverUi() => EventSystem.current.IsPointerOverGameObject();
         private void DisplayHoverUI(Coordinate currentCord)
         {
             hoverUI.transform.position = GridManager._instance.Grid.GetWorldPositionFromGridCoords(currentCord);

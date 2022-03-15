@@ -2,26 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GridSystem;
-
+using InventorySystem;
 namespace GardenProject
 {
     [System.Serializable]
     public class SeedTool : MouseTool
     {
         public readonly Plant PlantSeed;
-        public int SeedAmount { get; protected set; }
+        public Inventory Inventory { get; protected set; }
 
-        public SeedTool(Plant plantSeed, int seedAmount)
+
+        public SeedTool(Plant plantSeed, Inventory inventory)
         {
             PlantSeed = plantSeed;
-            SeedAmount = seedAmount;
+            Inventory = inventory;
         }
 
-        public bool HasSeeds => SeedAmount > 0;
+        public bool HasSeeds => Inventory.GetIventoryObjectAmount(PlantSeed) > 0;
+
 
         public override void UseTool(Coordinate coord)
         {
-            throw new System.NotImplementedException();
+            GroundTile groundTile = GridManager._instance.Grid.gridFields[coord.x, coord.y];
+            if (groundTile.IsPlantable && Inventory.IssueInventoryObject(PlantSeed, 1))
+            {
+                groundTile.PlantPlant(PlantSeed);
+            }
+            else
+            {
+                Debug.Log("GroundTile is not planatable or we dont have Seeds");
+            }
+
+            //TODO Find a way to automaticly deslect the seed tool if no seeds are left
         }
 
 
