@@ -79,6 +79,7 @@ namespace GardenProject
             placedVisual = null;
             grid.GetWorldPositionFromGridCoords(m_x, m_z, out Vector3 myWorldPos);
             placedVisual = GameObject.Instantiate(m_Plant.CurrentGrowthStage.Visual, myWorldPos, Quaternion.identity);
+            placedVisual.transform.GetChild(0).eulerAngles = m_Plant.Rotation;
         }
 
         public bool HarvestPlant()

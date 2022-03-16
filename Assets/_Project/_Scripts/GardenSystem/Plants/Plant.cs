@@ -15,17 +15,19 @@ namespace GardenProject
 
         public GrowthStage CurrentGrowthStage { get => m_CurrentGrowthStage; }
         public bool IsHarvastable { get => m_CurrentGrowthStage.Harvestable; }
-
+        public bool CanGrow { get => m_CurrentGrowthStageIndex < m_PlantSeed.GrowthStages.Length; }
         private Action m_onGrowthStageChange;
         private int m_nextGrowthStageTime;
+        public readonly Vector3 Rotation;
 
         public Plant(PlantSeed _PlantSeed, GroundTile _myGroundTile)
         {
             m_PlantSeed = _PlantSeed;
             m_CurrentGrowthStage = m_PlantSeed.GrowthStages[m_CurrentGrowthStageIndex];
             m_GroundTile = _myGroundTile;
-            RegisterUpdateGrowthStage();
-            m_onGrowthStageChange += RegisterUpdateGrowthStage;
+            Rotation = new Vector3(0, UnityEngine.Random.Range(0, 360), 0);
+            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
+            TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
         }
 
         public void RegisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange += _action;
@@ -37,13 +39,20 @@ namespace GardenProject
         private void ChangeGrowthStage(int changeDirection)
         {
             int changedValue = m_CurrentGrowthStageIndex + (changeDirection / Mathf.Abs(changeDirection));
-            if (changedValue > 0 && changedValue < m_PlantSeed.GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
+            if (changedValue > 0 && changedValue <= m_PlantSeed.GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
             {
+                Debug.Log("Old Growth Index: " + m_CurrentGrowthStageIndex);
                 m_CurrentGrowthStage = m_PlantSeed.GrowthStages[changedValue];
                 m_CurrentGrowthStageIndex = changedValue;
+                Debug.Log("new Growth Index: " + m_CurrentGrowthStageIndex);
+                m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
                 m_onGrowthStageChange?.Invoke();
             }
-            Debug.LogError("GrowthStage out of bounce or not changing");
+            else if (changedValue < m_PlantSeed.GrowthStages.Length)
+            {
+                Debug.Log("max GrowthStage reached");
+                TimeManager.Instance.UnregisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
+            }
         }
 
         public void ResetGrowth()
@@ -84,14 +93,8 @@ namespace GardenProject
         {
             if (m_nextGrowthStageTime <= _timeStamp.InMinutes())
             {
-                Debug.Log("Increasing GrowthStage");
                 IncreaseGrowthStage();
             }
-        }
-        private void RegisterUpdateGrowthStage()
-        {
-            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
-            TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
         }
     }
 }
