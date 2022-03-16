@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using TimeSystem;
 using InventorySystem;
 namespace GardenProject
 {
@@ -17,7 +17,7 @@ namespace GardenProject
         public int BaseCost;
 
         private GrowthStage m_CurrentGrowthStage;
-        private int m_CurrentGrowthStageIndex = 0;
+        [SerializeField] private int m_CurrentGrowthStageIndex = 0;
         private GroundTile m_MyGroundTile;
 
         public GrowthStage CurrentGrowthStage { get => m_CurrentGrowthStage; }
@@ -30,6 +30,7 @@ namespace GardenProject
         public int Cost => BaseCost; //TODO Implement some kind of Modifier, Inflation, Angebot/Nachfrage, Verträge ???? 
 
         private Action m_onGrowthStageChange;
+        private int m_nextGrowthStageTime;
 
         public void RegisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange += _action;
         public void UnregisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange -= _action;
@@ -91,6 +92,17 @@ namespace GardenProject
         {
             m_CurrentGrowthStage = m_GrowthStages[m_CurrentGrowthStageIndex];
             m_MyGroundTile = _myGroundTile;
+            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
+            TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
+        }
+
+        public void UpdateGrowthStage(TimeStamp _timeStamp)
+        {
+            if (m_nextGrowthStageTime <= _timeStamp.InMinutes())
+            {
+                Debug.Log("Increasing GrowthStage");
+                IncreaseGrowthStage();
+            }
         }
 
         public void PickItem(Inventory inventory)
