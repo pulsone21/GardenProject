@@ -61,14 +61,11 @@ namespace GardenProject
         public void UpdateDebugText(string newText) => DebugTextGO.GetComponent<TextMeshPro>().text = newText;
 
 
-        public bool PlantPlant(Plant _plant)
+        public bool PlantPlant(PlantSeed _plantSeed)
         {
             if (m_IsPlantable)
             {
-                m_Plant = _plant;
-                m_Plant.Planting(this);
-                //TODO Handle inventory Stuff
-                //TODO Handle Visuals
+                m_Plant = new Plant(_plantSeed, this);
                 UpdateVisuals();
                 m_Plant.RegisterOnGrowthStageChange(UpdateVisuals);
                 return true;

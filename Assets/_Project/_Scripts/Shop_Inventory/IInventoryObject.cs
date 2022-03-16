@@ -7,7 +7,6 @@ namespace InventorySystem
     {
         Sprite UiVisual { get; }
         int BaseCost { get; }
-        int Cost { get; }
         string Name { get; }
 
         void PickItem(Inventory inventory);

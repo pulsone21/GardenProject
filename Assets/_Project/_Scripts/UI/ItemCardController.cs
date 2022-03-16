@@ -7,7 +7,6 @@ using System;
 
 namespace InventorySystem
 {
-
     public class ItemCardController : MonoBehaviour
     {
         public enum Context { Sell, Buy, Pick }
@@ -26,8 +25,8 @@ namespace InventorySystem
             m_MyManager = MyManager;
             m_InventoryObject = InventoryObject;
             m_ItemImage.sprite = InventoryObject.UiVisual;
-            m_ItemCosts.text = CostString(InventoryObject.Cost);
-            m_ItemAmount.text = AmountString(MyManager.GetItemAmount(InventoryObject));
+            RefreshCost();
+            RefreshAmount();
             m_ItemName.text = InventoryObject.Name;
             EvalButtons(context);
             MyManager.Inventory.RegisterForOnIssue(RefreshAmount);
@@ -47,7 +46,7 @@ namespace InventorySystem
                     m_SellBtn.SetActive(false);
                     break;
                 case Context.Pick:
-                    //do nothing buttons are disabled on start.
+                    //? do nothing, buttons are disabled on start and no buttons are needed.
                     break;
                 default: throw new NotImplementedException();
             }
@@ -59,7 +58,7 @@ namespace InventorySystem
             RefreshAmount();
         }
 
-        private void RefreshCost() => m_ItemCosts.text = CostString(m_InventoryObject.Cost);
+        private void RefreshCost() => m_ItemCosts.text = CostString(m_InventoryObject.BaseCost); //TODO Implement some kind of economics
         private void RefreshAmount() => m_ItemAmount.text = AmountString(m_MyManager.GetItemAmount(m_InventoryObject));
         public void PickItem() => m_InventoryObject.PickItem(m_MyManager.Inventory);
 

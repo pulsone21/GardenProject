@@ -6,31 +6,28 @@ using TimeSystem;
 using InventorySystem;
 namespace GardenProject
 {
-
-    //TODO refactor and split into multiple parts. This class does to many things
-    [CreateAssetMenu(menuName = "ScriptableObjects/Plant")]
-    public class Plant : ScriptableObject, IInventoryObject
+    public class Plant
     {
-        public string Name;
-        [SerializeField] private GrowthStage[] m_GrowthStages;
-        public Sprite UiVisual;
-        public int BaseCost;
-
+        private readonly PlantSeed m_PlantSeed;
         private GrowthStage m_CurrentGrowthStage;
-        [SerializeField] private int m_CurrentGrowthStageIndex = 0;
-        private GroundTile m_MyGroundTile;
+        private int m_CurrentGrowthStageIndex = 0;
+        private readonly GroundTile m_GroundTile;
 
         public GrowthStage CurrentGrowthStage { get => m_CurrentGrowthStage; }
         public bool IsHarvastable { get => m_CurrentGrowthStage.Harvestable; }
 
-        Sprite IInventoryObject.UiVisual { get => UiVisual; }
-        int IInventoryObject.BaseCost { get => BaseCost; }
-        string IInventoryObject.Name { get => Name; }
-
-        public int Cost => BaseCost; //TODO Implement some kind of Modifier, Inflation, Angebot/Nachfrage, Verträge ???? 
-
         private Action m_onGrowthStageChange;
         private int m_nextGrowthStageTime;
+
+        public Plant(PlantSeed _PlantSeed, GroundTile _myGroundTile)
+        {
+            m_PlantSeed = _PlantSeed;
+            m_CurrentGrowthStage = m_PlantSeed.GrowthStages[m_CurrentGrowthStageIndex];
+            m_GroundTile = _myGroundTile;
+            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
+            RegisterUpdateGrowthStage();
+            m_onGrowthStageChange += RegisterUpdateGrowthStage;
+        }
 
         public void RegisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange += _action;
         public void UnregisterOnGrowthStageChange(Action _action) => m_onGrowthStageChange -= _action;
@@ -41,9 +38,9 @@ namespace GardenProject
         private void ChangeGrowthStage(int changeDirection)
         {
             int changedValue = m_CurrentGrowthStageIndex + (changeDirection / Mathf.Abs(changeDirection));
-            if (changedValue > 0 && changedValue < m_GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
+            if (changedValue > 0 && changedValue < m_PlantSeed.GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
             {
-                m_CurrentGrowthStage = m_GrowthStages[changedValue];
+                m_CurrentGrowthStage = m_PlantSeed.GrowthStages[changedValue];
                 m_CurrentGrowthStageIndex = changedValue;
                 m_onGrowthStageChange?.Invoke();
             }
@@ -52,7 +49,7 @@ namespace GardenProject
 
         public void ResetGrowth()
         {
-            m_CurrentGrowthStage = m_GrowthStages[0];
+            m_CurrentGrowthStage = m_PlantSeed.GrowthStages[0];
             m_CurrentGrowthStageIndex = 0;
             m_onGrowthStageChange?.Invoke();
         }
@@ -73,7 +70,8 @@ namespace GardenProject
                 switch (m_CurrentGrowthStage.HarvestType)
                 {
                     case HarvestType.harvest:
-                        m_MyGroundTile.RemovePlant();
+                        m_GroundTile.RemovePlant();
+                        TimeManager.Instance.UnregisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
                         return true;
                     case HarvestType.collect:
                         DecreaseGrowthStage();
@@ -84,19 +82,7 @@ namespace GardenProject
             return false;
         }
 
-        /// <summary>
-        /// Plants the plant, needs to get called for initialization
-        /// </summary>
-        /// <returns>GameObject Plant Visual</returns>
-        public void Planting(GroundTile _myGroundTile)
-        {
-            m_CurrentGrowthStage = m_GrowthStages[m_CurrentGrowthStageIndex];
-            m_MyGroundTile = _myGroundTile;
-            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
-            TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
-        }
-
-        public void UpdateGrowthStage(TimeStamp _timeStamp)
+        private void UpdateGrowthStage(TimeStamp _timeStamp)
         {
             if (m_nextGrowthStageTime <= _timeStamp.InMinutes())
             {
@@ -104,12 +90,6 @@ namespace GardenProject
                 IncreaseGrowthStage();
             }
         }
-
-        public void PickItem(Inventory inventory)
-        {
-            MouseController._instance.SetMouseTool(new SeedTool(this, inventory));
-            //TODO Implement custom mouse pointer or something that gives feedback
-        }
+        private void RegisterUpdateGrowthStage() => TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
     }
-
 }

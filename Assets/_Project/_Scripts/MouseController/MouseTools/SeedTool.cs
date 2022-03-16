@@ -8,11 +8,11 @@ namespace GardenProject
     [System.Serializable]
     public class SeedTool : MouseTool
     {
-        public readonly Plant PlantSeed;
+        public readonly PlantSeed PlantSeed;
         public Inventory Inventory { get; protected set; }
 
 
-        public SeedTool(Plant plantSeed, Inventory inventory)
+        public SeedTool(PlantSeed plantSeed, Inventory inventory)
         {
             PlantSeed = plantSeed;
             Inventory = inventory;

@@ -11,7 +11,7 @@ namespace InventorySystem
 
         public bool TESTING_InventoryPlaces;
 
-        public List<Plant> TESTING_Plants = new List<Plant>();
+        public List<PlantSeed> TESTING_Plants = new List<PlantSeed>();
 
         protected void Awake()
         {
@@ -29,7 +29,7 @@ namespace InventorySystem
             if (TESTING_InventoryPlaces)
             {
                 List<InventoryPlace> ips = new List<InventoryPlace>();
-                foreach (Plant plant in TESTING_Plants)
+                foreach (PlantSeed plant in TESTING_Plants)
                 {
                     ips.Add(new InventoryPlace(plant, Random.Range(1, 15)));
                 }
