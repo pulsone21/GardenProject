@@ -24,7 +24,6 @@ namespace GardenProject
             m_PlantSeed = _PlantSeed;
             m_CurrentGrowthStage = m_PlantSeed.GrowthStages[m_CurrentGrowthStageIndex];
             m_GroundTile = _myGroundTile;
-            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
             RegisterUpdateGrowthStage();
             m_onGrowthStageChange += RegisterUpdateGrowthStage;
         }
@@ -66,7 +65,6 @@ namespace GardenProject
             if (m_CurrentGrowthStage.Harvestable)
             {
                 harvestedAmmount = m_CurrentGrowthStage.HarvestAmount;
-
                 switch (m_CurrentGrowthStage.HarvestType)
                 {
                     case HarvestType.harvest:
@@ -90,6 +88,10 @@ namespace GardenProject
                 IncreaseGrowthStage();
             }
         }
-        private void RegisterUpdateGrowthStage() => TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
+        private void RegisterUpdateGrowthStage()
+        {
+            m_nextGrowthStageTime = TimeManager.Instance.CurrentTimeStamp.InMinutes() + Mathf.FloorToInt(m_CurrentGrowthStage.GrowthTime);
+            TimeManager.Instance.RegisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
+        }
     }
 }
