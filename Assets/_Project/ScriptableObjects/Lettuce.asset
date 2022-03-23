@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Lettuce
   m_EditorClassIdentifier: 
-  m_baseCost: 0
-  name: 
-  uiVisiuals: {fileID: 0}
+  m_baseCost: 15
+  name: Lettuce
+  uiVisiuals: {fileID: 21300000, guid: 3147296ed6a653049b7aa11731316ebe, type: 3}

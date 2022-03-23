@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: PumpkinSeed
   m_EditorClassIdentifier: 
   name: Pumpkin Seed
+  seedUiVisual: {fileID: 21300000, guid: 3cbfd186254fc3b4ebe86d3fd9f63761, type: 3}
+  baseCost: 20
+  fruit: {fileID: 11400000, guid: 0ad94c282f4da5d42ab2fd5ae99f12c0, type: 2}
   m_GrowthStages:
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 5020106002923890995, guid: e770dc57f0e747c49bebaad9696c5cfb, type: 3}
@@ -29,6 +32,3 @@ MonoBehaviour:
     m_Harvestable: 1
     m_harvestType: 1
     m_GrowthTimeLength: 1
-  seedUiVisual: {fileID: 21300000, guid: 3cbfd186254fc3b4ebe86d3fd9f63761, type: 3}
-  baseCost: 20
-  fruit: {fileID: 0}

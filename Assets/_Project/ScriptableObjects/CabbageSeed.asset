@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: CabbageSeed
   m_EditorClassIdentifier: 
   name: Cabbage Seed
+  seedUiVisual: {fileID: 21300000, guid: 435a1aeda86648043813cd95920d1a35, type: 3}
+  baseCost: 10
+  fruit: {fileID: 11400000, guid: 8355e020d85c018488687e921bb32cb4, type: 2}
   m_GrowthStages:
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 4188409999072531074, guid: 0bbf2f7c0365bdc488f3573bee250be2, type: 3}
@@ -29,6 +32,3 @@ MonoBehaviour:
     m_Harvestable: 1
     m_harvestType: 1
     m_GrowthTimeLength: 1
-  seedUiVisual: {fileID: 21300000, guid: 435a1aeda86648043813cd95920d1a35, type: 3}
-  baseCost: 10
-  fruit: {fileID: 0}

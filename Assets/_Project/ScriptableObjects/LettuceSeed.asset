@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: LettuceSeed
   m_EditorClassIdentifier: 
   name: Lettuce Seed
+  seedUiVisual: {fileID: 21300000, guid: f12a17dd607e62d45b5f55e7ea0f1e17, type: 3}
+  baseCost: 15
+  fruit: {fileID: 11400000, guid: cc92fca7b77dfc243aaa4a83e12800bc, type: 2}
   m_GrowthStages:
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 1095635624127096851, guid: 885e9f0b2791215468c19d3c1b978af2, type: 3}
@@ -29,6 +32,3 @@ MonoBehaviour:
     m_Harvestable: 1
     m_harvestType: 1
     m_GrowthTimeLength: 1
-  seedUiVisual: {fileID: 21300000, guid: f12a17dd607e62d45b5f55e7ea0f1e17, type: 3}
-  baseCost: 15
-  fruit: {fileID: 0}

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Cabbage
   m_EditorClassIdentifier: 
-  m_baseCost: 0
-  name: 
-  uiVisiuals: {fileID: 0}
+  m_baseCost: 25
+  name: Cabbage
+  uiVisiuals: {fileID: 21300000, guid: f139dd2797541b74793f3173e1fd8c0f, type: 3}

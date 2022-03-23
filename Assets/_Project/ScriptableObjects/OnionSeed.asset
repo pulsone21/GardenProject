@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: OnionSeed
   m_EditorClassIdentifier: 
   name: Onion Seed
+  seedUiVisual: {fileID: 21300000, guid: 8683c9c80b2989e47981f85574694493, type: 3}
+  baseCost: 20
+  fruit: {fileID: 11400000, guid: e8268e8ac48306a4b8af74878238c6a4, type: 2}
   m_GrowthStages:
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 5130200795260488640, guid: ef066e956b21da649ac819114db12829, type: 3}
@@ -29,6 +32,3 @@ MonoBehaviour:
     m_Harvestable: 1
     m_harvestType: 1
     m_GrowthTimeLength: 1
-  seedUiVisual: {fileID: 21300000, guid: 8683c9c80b2989e47981f85574694493, type: 3}
-  baseCost: 20
-  fruit: {fileID: 0}

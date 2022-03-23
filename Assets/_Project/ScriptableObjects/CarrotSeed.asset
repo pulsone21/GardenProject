@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: CarrotSeed
   m_EditorClassIdentifier: 
   name: Carrot Seed
+  seedUiVisual: {fileID: 21300000, guid: 45f50346474cdcc4eb036ecabb8488e5, type: 3}
+  baseCost: 10
+  fruit: {fileID: 11400000, guid: 3b12655b438911c4b84563b256b715ad, type: 2}
   m_GrowthStages:
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 5418521617330533015, guid: 0df657528d963bf4cb50af2294aa4e3e, type: 3}
@@ -29,6 +32,3 @@ MonoBehaviour:
     m_Harvestable: 1
     m_harvestType: 1
     m_GrowthTimeLength: 1
-  seedUiVisual: {fileID: 21300000, guid: 45f50346474cdcc4eb036ecabb8488e5, type: 3}
-  baseCost: 10
-  fruit: {fileID: 0}

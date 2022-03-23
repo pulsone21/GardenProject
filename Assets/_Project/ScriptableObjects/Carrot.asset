@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
-  m_baseCost: 0
-  name: 
-  uiVisiuals: {fileID: 0}
+  m_baseCost: 15
+  name: Carrot
+  uiVisiuals: {fileID: 21300000, guid: c1879245f22fb0d41b9d4d48ae3be67f, type: 3}

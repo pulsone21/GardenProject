@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Onion
   m_EditorClassIdentifier: 
-  m_baseCost: 0
-  name: 
-  uiVisiuals: {fileID: 0}
+  m_baseCost: 25
+  name: Onion
+  uiVisiuals: {fileID: 21300000, guid: 7720f198230e8434b887433cc27f2788, type: 3}

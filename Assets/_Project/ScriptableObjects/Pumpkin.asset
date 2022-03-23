@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Pumpkin
   m_EditorClassIdentifier: 
-  m_baseCost: 0
-  name: 
-  uiVisiuals: {fileID: 0}
+  m_baseCost: 30
+  name: Pumpkin
+  uiVisiuals: {fileID: 21300000, guid: 62190872a290260498269faa49e7f966, type: 3}
