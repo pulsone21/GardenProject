@@ -58,7 +58,7 @@ namespace InventorySystem
             RefreshAmount();
         }
 
-        private void RefreshCost() => m_ItemCosts.text = CostString(m_InventoryObject.BaseCost); //TODO Implement some kind of economics
+        private void RefreshCost() => m_ItemCosts.text = CostString(m_InventoryObject.Cost); //TODO Implement some kind of economics
         private void RefreshAmount() => m_ItemAmount.text = AmountString(m_MyManager.GetItemAmount(m_InventoryObject));
         public void PickItem() => m_InventoryObject.PickItem(m_MyManager.Inventory);
 

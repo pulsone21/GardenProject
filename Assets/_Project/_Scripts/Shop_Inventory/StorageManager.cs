@@ -37,12 +37,15 @@ namespace InventorySystem
             }
             else
             {
-                Inventory = new Inventory(m_InventoryPlaces);
+                Inventory = new Inventory();
             }
+            Inventory.RegisterForOnIssue(UpdateUI);
+            Inventory.RegisterForOnReceive(UpdateUI);
         }
 
         private void Start()
         {
+
             InitItemCards();
         }
 
@@ -56,6 +59,12 @@ namespace InventorySystem
                 go.GetComponent<ItemCardController>().InitializeItemCard(ip.Object, this, ItemCardController.Context.Pick);
                 go.transform.SetParent(transform);
             }
+        }
+
+        private void UpdateUI()
+        {
+            transform.ClearAllChildren();
+            InitItemCards();
         }
 
 
