@@ -9,7 +9,7 @@ namespace GardenProject
     {
         public override void UseTool(Coordinate coord)
         {
-            throw new System.NotImplementedException();
+            GridManager._instance.Grid.gridFields[coord.x, coord.y].HarvestPlant();
         }
     }
 }

@@ -53,6 +53,7 @@ namespace GardenProject
         public void SetPlaceable(bool state)
         {
             if (state) SetPlantable(false);
+            RemovePlant();
             m_isPlaceable = state;
         }
 
@@ -82,12 +83,7 @@ namespace GardenProject
             placedVisual.transform.GetChild(0).eulerAngles = m_Plant.Rotation;
         }
 
-        public bool HarvestPlant()
-        {
-            bool harvested = m_Plant.Harvest(out int harvestedAmmount);
-            //TODO Handle Inventory Stuff
-            return harvested;
-        }
+        public bool HarvestPlant() => m_Plant.Harvest();
 
         public void RemovePlant()
         {

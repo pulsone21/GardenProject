@@ -8,15 +8,17 @@ namespace GardenProject
     [CreateAssetMenu(menuName = "ScriptableObjects/Plantseed")]
     public class PlantSeed : ScriptableObject, IInventoryObject
     {
-        public string Name;
+        [SerializeField] private new string name;
+        [SerializeField] private Sprite seedUiVisual;
+        [SerializeField] private int baseCost;
+        [SerializeField] private Fruit fruit;
         [SerializeField] private GrowthStage[] m_GrowthStages;
-        public Sprite UiVisual;
-        public int BaseCost;
-        public GrowthStage[] GrowthStages => m_GrowthStages;
 
-        Sprite IInventoryObject.UiVisual { get => UiVisual; }
-        int IInventoryObject.BaseCost { get => BaseCost; }
-        string IInventoryObject.Name { get => Name; }
+        public Fruit Fruit => fruit;
+        public GrowthStage[] GrowthStages => m_GrowthStages;
+        Sprite IInventoryObject.UiVisual { get => seedUiVisual; }
+        int IInventoryObject.Cost { get => baseCost; }
+        string IInventoryObject.Name { get => name; }
 
         public void PickItem(Inventory inventory)
         {

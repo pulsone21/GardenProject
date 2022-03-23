@@ -66,10 +66,10 @@ namespace GardenProject
         /// Harvest the Plant 
         /// </summary>
         /// <returns></returns>
-        public bool Harvest(out int harvestedAmmount)
+        public bool Harvest()
         {
             // IDEA harvest expierence could be change the ammount a bit
-            harvestedAmmount = 0;
+            int harvestedAmmount = 0;
 
             if (m_CurrentGrowthStage.Harvestable)
             {
@@ -79,14 +79,22 @@ namespace GardenProject
                     case HarvestType.harvest:
                         m_GroundTile.RemovePlant();
                         TimeManager.Instance.UnregisterForTimeUpdate(UpdateGrowthStage, TimeManager.SubscriptionType.AfterElapse);
+                        StoreHarvestedItems(harvestedAmmount);
                         return true;
                     case HarvestType.collect:
                         DecreaseGrowthStage();
+                        StoreHarvestedItems(harvestedAmmount);
                         return true;
                     default: return false;
                 }
             }
             return false;
+        }
+
+        private void StoreHarvestedItems(int harvestedAmmount)
+        {
+            Debug.Log("Storing harvested fruits");
+            StorageManager.Instance.Inventory.ReceiveInventoryObject(m_PlantSeed.Fruit, harvestedAmmount);
         }
 
         private void UpdateGrowthStage(TimeStamp _timeStamp)
