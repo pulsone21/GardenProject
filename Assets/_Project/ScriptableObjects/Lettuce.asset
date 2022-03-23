@@ -9,25 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1baf000e2086b184a8385baf3f6b93b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8faf979269e298540b06cd2a38ebd9f9, type: 3}
   m_Name: Lettuce
   m_EditorClassIdentifier: 
-  Name: Lettuce
-  m_GrowthStages:
-  - m_HarvestAmount: 0
-    m_Visuals: {fileID: 1095635624127096851, guid: 885e9f0b2791215468c19d3c1b978af2, type: 3}
-    m_Harvestable: 0
-    m_harvestType: 0
-    m_GrowthTimeLength: 1
-  - m_HarvestAmount: 0
-    m_Visuals: {fileID: 1095635624127096851, guid: f17f50637908de1428eafe206589e588, type: 3}
-    m_Harvestable: 0
-    m_harvestType: 0
-    m_GrowthTimeLength: 1
-  - m_HarvestAmount: 1
-    m_Visuals: {fileID: 1095635624127096851, guid: 9a77abe47715b6b4a981f4c987db3ebc, type: 3}
-    m_Harvestable: 1
-    m_harvestType: 1
-    m_GrowthTimeLength: 1
-  UiVisual: {fileID: 21300000, guid: 3147296ed6a653049b7aa11731316ebe, type: 3}
-  BaseCost: 10
+  m_baseCost: 0
+  name: 
+  uiVisiuals: {fileID: 0}

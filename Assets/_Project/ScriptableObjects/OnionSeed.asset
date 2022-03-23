@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1baf000e2086b184a8385baf3f6b93b2, type: 3}
+  m_Name: OnionSeed
+  m_EditorClassIdentifier: 
+  name: Onion Seed
+  m_GrowthStages:
+  - m_HarvestAmount: 0
+    m_Visuals: {fileID: 5130200795260488640, guid: ef066e956b21da649ac819114db12829, type: 3}
+    m_Harvestable: 0
+    m_harvestType: 0
+    m_GrowthTimeLength: 1
+  - m_HarvestAmount: 0
+    m_Visuals: {fileID: 5130200795260488640, guid: fa0702b59ea1bd046bb28ad6521c8538, type: 3}
+    m_Harvestable: 0
+    m_harvestType: 0
+    m_GrowthTimeLength: 1
+  - m_HarvestAmount: 3
+    m_Visuals: {fileID: 5130200795260488640, guid: 147d29301b9ca424fbfe7715aea5b3ca, type: 3}
+    m_Harvestable: 1
+    m_harvestType: 1
+    m_GrowthTimeLength: 1
+  seedUiVisual: {fileID: 21300000, guid: 8683c9c80b2989e47981f85574694493, type: 3}
+  baseCost: 20
+  fruit: {fileID: 0}
