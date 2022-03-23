@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System;
 
 namespace TimeSystem
 {
@@ -11,6 +11,8 @@ namespace TimeSystem
         public int Month { get; protected set; }
         public int Year { get; protected set; }
         public Season Season { get; protected set; }
+
+        public static TimeStamp INITIAL_TIMESTAMP = new TimeStamp(0, 0, 1, 1, 2020);
 
         public TimeStamp(int _minute, int _hour, int _day, int _month, int _year, Season _season)
         {
@@ -47,6 +49,14 @@ namespace TimeSystem
             return timeStampInMinutes;
         }
 
-        public int InMinutes() => GetTimeStampInMinutes(this);
+        public static TimeStamp GetTimeStampFromTotalMinutes(long totalMinutes)
+        {
+            //Creating my own epoch
+            DateTime dtDateTime = new DateTime(INITIAL_TIMESTAMP.Year, INITIAL_TIMESTAMP.Month, INITIAL_TIMESTAMP.Day, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddMinutes(totalMinutes);
+            return new TimeStamp(dtDateTime.Minute, dtDateTime.Hour, dtDateTime.Day, dtDateTime.Month, dtDateTime.Year);
+        }
+
+        public long InMinutes() => GetTimeStampInMinutes(this);
     }
 }

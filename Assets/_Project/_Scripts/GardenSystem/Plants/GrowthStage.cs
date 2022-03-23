@@ -29,6 +29,10 @@ namespace GardenProject
         public int HarvestAmount => m_HarvestAmount;
         public GameObject Visual => m_Visuals;
         public HarvestType HarvestType => m_harvestType;
+
+        /// <summary>
+        /// GrwothTime in minutes
+        /// </summary>
         public float GrowthTime => m_GrowthTimeLength * MINUTES_PER_DAY;
     }
 }

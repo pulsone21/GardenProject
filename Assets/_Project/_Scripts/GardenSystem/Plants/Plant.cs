@@ -17,7 +17,7 @@ namespace GardenProject
         public bool IsHarvastable { get => m_CurrentGrowthStage.Harvestable; }
         public bool CanGrow { get => m_CurrentGrowthStageIndex < m_PlantSeed.GrowthStages.Length; }
         private Action m_onGrowthStageChange;
-        private int m_nextGrowthStageTime;
+        private long m_nextGrowthStageTime;
         public readonly Vector3 Rotation;
 
         public Plant(PlantSeed _PlantSeed, GroundTile _myGroundTile)
@@ -93,6 +93,7 @@ namespace GardenProject
         {
             if (m_nextGrowthStageTime <= _timeStamp.InMinutes())
             {
+                m_nextGrowthStageTime = long.MinValue;
                 IncreaseGrowthStage();
             }
         }
