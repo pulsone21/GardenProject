@@ -13407,7 +13407,8 @@ MonoBehaviour:
   year: 0
   currentSeason: 0
   speedModifier: 0
-  realTimeToMinute: 0
+  m_realLifeMinToIngameDay: 10
+  timer: 0
 --- !u!1001 &1561037549
 PrefabInstance:
   m_ObjectHideFlags: 0

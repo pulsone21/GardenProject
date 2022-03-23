@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eefd3a33888910740a30915ad7b28770, type: 3}
+  m_Script: {fileID: 11500000, guid: 1baf000e2086b184a8385baf3f6b93b2, type: 3}
   m_Name: Carrot
   m_EditorClassIdentifier: 
   Name: Carrot
@@ -18,13 +18,16 @@ MonoBehaviour:
     m_Visuals: {fileID: 5418521617330533015, guid: 0df657528d963bf4cb50af2294aa4e3e, type: 3}
     m_Harvestable: 0
     m_harvestType: 0
+    m_GrowthTimeLength: 1
   - m_HarvestAmount: 0
     m_Visuals: {fileID: 5418521617330533015, guid: 9584d39d79b74e249864b99a48fdeae6, type: 3}
     m_Harvestable: 0
     m_harvestType: 0
+    m_GrowthTimeLength: 1
   - m_HarvestAmount: 2
     m_Visuals: {fileID: 5418521617330533015, guid: d32f6a875fd1a264586d5a45533e1807, type: 3}
     m_Harvestable: 1
     m_harvestType: 1
+    m_GrowthTimeLength: 1
   UiVisual: {fileID: 21300000, guid: c1879245f22fb0d41b9d4d48ae3be67f, type: 3}
   BaseCost: 15
