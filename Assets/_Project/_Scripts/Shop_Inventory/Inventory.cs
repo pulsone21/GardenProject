@@ -16,7 +16,20 @@ namespace InventorySystem
 
         public Inventory(List<InventoryPlace> items)
         {
-            m_InventorySlots = items;
+            m_InventorySlots = new List<InventoryPlace>();
+            //? this resolves possible duplicates from the incoming list
+            foreach (InventoryPlace IP in items)
+            {
+                InventoryPlace ipInList = m_InventorySlots.Find(x => x.Name == IP.Name);
+                if (ipInList != null)
+                {
+                    ipInList.Add(IP.CurrentAmount);
+                }
+                else
+                {
+                    m_InventorySlots.Add(IP);
+                }
+            }
         }
 
         public Inventory()
@@ -50,7 +63,7 @@ namespace InventorySystem
         {
             foreach (InventoryPlace IP in m_InventorySlots)
             {
-                if (IP.Object == _InventoryObject)
+                if (IP.Object.Name == _InventoryObject.Name)
                 {
                     bool state = IP.Remove(amount);
                     if (state)

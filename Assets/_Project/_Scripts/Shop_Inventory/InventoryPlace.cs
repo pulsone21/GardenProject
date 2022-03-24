@@ -16,6 +16,8 @@ namespace InventorySystem
             CurrentAmount = initalAmount;
         }
 
+        public string Name => Object.Name;
+
         public void Add(int _amount) => CurrentAmount += _amount;
 
         public bool Remove(int _amount)
