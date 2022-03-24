@@ -50,7 +50,7 @@ namespace InventorySystem
         {
             foreach (InventoryPlace InventoryPlace in m_InventorySlots)
             {
-                if (InventoryPlace.Object == _InventoryObject)
+                if (InventoryPlace.Object.Name == _InventoryObject.Name)
                 {
                     return InventoryPlace.CurrentAmount;
                 }
@@ -82,18 +82,15 @@ namespace InventorySystem
 
         public bool ReceiveInventoryObject(IInventoryObject _InventoryObject, int _amount)
         {
-            Debug.Log("Trying to store something");
             foreach (InventoryPlace IP in m_InventorySlots)
             {
                 if (IP.Object.Name == _InventoryObject.Name)
                 {
-                    Debug.Log("already have this object in store");
                     IP.Add(_amount);
                     m_OnReceive?.Invoke();
                     return true;
                 }
             }
-            Debug.Log("new object needs to be added");
             m_InventorySlots.Add(new InventoryPlace(_InventoryObject, _amount));
             m_OnReceive?.Invoke();
             return true;
