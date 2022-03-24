@@ -44,4 +44,17 @@ public static class Extensions
             list[n] = value;
         }
     }
+
+    public static T[] ToArray<T>(this HashSet<T> hashSet)
+    {
+        T[] array = new T[hashSet.Count];
+        int i = 0;
+        foreach (T item in hashSet)
+        {
+            array[i] = item;
+            i++;
+        }
+        return array;
+    }
+
 }
