@@ -39,7 +39,7 @@ namespace GardenProject
         private void ChangeGrowthStage(int changeDirection)
         {
             int changedValue = m_CurrentGrowthStageIndex + (changeDirection / Mathf.Abs(changeDirection));
-            if (changedValue > 0 && changedValue <= m_PlantSeed.GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
+            if (changedValue >= 0 && changedValue < m_PlantSeed.GrowthStages.Length && m_CurrentGrowthStageIndex != changedValue)
             {
                 Debug.Log("Old Growth Index: " + m_CurrentGrowthStageIndex);
                 m_CurrentGrowthStage = m_PlantSeed.GrowthStages[changedValue];
