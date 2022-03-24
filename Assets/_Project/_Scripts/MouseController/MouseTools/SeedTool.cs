@@ -16,6 +16,7 @@ namespace GardenProject
         {
             PlantSeed = plantSeed;
             Inventory = inventory;
+            CursorType = MouseCourserManager.CursorType.Seed;
         }
 
         public bool HasSeeds => Inventory.GetIventoryObjectAmount(PlantSeed) > 0;

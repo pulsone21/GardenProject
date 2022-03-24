@@ -8,6 +8,7 @@ namespace GardenProject
     [System.Serializable]
     public abstract class MouseTool
     {
+        public MouseCourserManager.CursorType CursorType { get; protected set; }
         public abstract void UseTool(Coordinate coord);
     }
 }

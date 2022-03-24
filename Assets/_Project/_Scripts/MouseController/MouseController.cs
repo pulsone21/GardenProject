@@ -13,6 +13,7 @@ namespace GardenProject
         private Camera m_mainCam;
         [SerializeField] private GameObject PrefabHoverHighlightUI;
         private GameObject hoverUI;
+        [SerializeField] private MouseCourserManager m_MouseCourserManager;
 
         private MouseTool selectedTool;
 
@@ -35,7 +36,7 @@ namespace GardenProject
         {
             if (Input.GetMouseButtonDown(1))
             {
-                selectedTool = null;
+                SetMouseTool(null);
             }
 
             if (!MouseOverUi() && OverGrid(Input.mousePosition, out Coordinate currentCord))
@@ -72,6 +73,15 @@ namespace GardenProject
         public void SetMouseTool(MouseTool _mouseTool)
         {
             selectedTool = _mouseTool;
+            if (_mouseTool != null)
+            {
+                Debug.Log("MouseTool: " + _mouseTool.ToString() + "CusorType : " + _mouseTool.CursorType);
+                m_MouseCourserManager.SetCursor(_mouseTool.CursorType);
+            }
+            else
+            {
+                m_MouseCourserManager.SetDefaultCursor();
+            }
         }
     }
 }
